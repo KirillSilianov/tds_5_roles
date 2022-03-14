@@ -1,0 +1,6 @@
+---
+
+ssl_dir:  "{{ base_ssl_dir }}"
+ssl_cert: "{{ base_ssl_cert }}"
+ssl_key:  "{{ base_ssl_key }}"
+ssl_csr:  "{{ base_ssl_dir }}/cert.csr"

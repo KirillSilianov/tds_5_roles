@@ -1,0 +1,57 @@
+---
+
+- name: 'NGINX repository added'
+  copy:
+    src:   nginx.repo
+    dest:  /etc/yum.repos.d/nginx.repo
+    owner: root
+    group: root
+    mode:  '0644'
+
+- name: 'NGINX installed'
+  yum:
+    name:
+      - nginx
+    state:        present
+    update_cache: true
+
+- name: 'NGINX main config copied'
+  copy:
+    src:   nginx.conf
+    dest:  /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode:  0644
+  notify: restart_nginx
+
+- name: 'Site config created from template'
+  template:
+    src:  nginx.conf.j2
+    dest: /etc/nginx/conf.d/tls.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart_nginx
+
+- name: "Index page created from template"
+  template:
+    src:   index.html.j2
+    dest:  /usr/share/nginx/html/index.html
+    owner: root
+    group: root
+    mode:  0644
+  notify: restart_nginx
+
+- name: ensure nginx is enabled and started
+  service:
+    name:    nginx
+    state:   started
+    enabled: true
+
+- name: insert firewalld rule for nginx
+  firewalld:
+    port:      "{{ https_port }}/tcp"
+    permanent: true
+    state:     enabled
+    immediate: true
+  ignore_errors: true

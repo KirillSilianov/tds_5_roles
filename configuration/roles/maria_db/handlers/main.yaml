@@ -1,0 +1,8 @@
+---
+
+- name: MariaDB server restarted
+  service:
+    name:    mariadb
+    state:   restarted
+    enabled: true
+  listen: mdb_enable

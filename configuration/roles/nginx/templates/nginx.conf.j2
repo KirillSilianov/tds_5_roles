@@ -1,0 +1,11 @@
+server {
+    listen              {{ https_port }} ssl;
+    server_name         localhost;
+    ssl_certificate     {{ ssl_cert }};
+    ssl_certificate_key {{ ssl_key }};
+    root                /usr/share/nginx/html;
+    index               index.html index.htm;
+    location / {
+            try_files $uri $uri/ =404;
+    }
+}

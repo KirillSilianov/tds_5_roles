@@ -1,0 +1,36 @@
+---
+
+- name: 'Python dependencies installed'
+  yum:
+    name:
+      - python2-cryptography
+    state: present
+
+- name: 'SSL certs directory created'
+  file:
+    path:  "{{ ssl_dir }}"
+    state: directory
+    mode: '0644'
+
+- name: 'Private key generated'
+  openssl_privatekey:
+    path:   "{{ ssl_key }}"
+    size:   "4096"
+    type:   "RSA"
+    backup: yes
+
+- name: 'Cert request generated'
+  openssl_csr:
+    path:              "{{ ssl_csr }}"
+    privatekey_path:   "{{ ssl_key }}"
+    country_name:      "RU"
+    organization_name: "Tensor, OOO"
+    email_address:     "admin@tensor.ru"
+    common_name:       "localhost"
+
+- name: 'SelfSigned cert generated'
+  openssl_certificate:
+    path:            "{{ ssl_cert }}"
+    privatekey_path: "{{ ssl_key }}"
+    csr_path:        "{{ ssl_csr }}"
+    provider:        selfsigned

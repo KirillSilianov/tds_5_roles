@@ -1,0 +1,25 @@
+---
+
+- hosts: server
+  vars:
+    only_nginx: false
+    only_maria: false
+
+  tasks:
+    - name: Import CA role
+      import_role:
+        name: ca
+      when:
+        - not only_maria
+
+    - name: Import NGINX role
+      import_role:
+        name: nginx
+      when:
+        - not only_maria
+
+    - name: Import MariaDB role
+      import_role:
+        name: maria_db
+      when:
+        - not only_nginx

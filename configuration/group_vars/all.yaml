@@ -1,0 +1,5 @@
+---
+
+base_ssl_dir:  "/etc/ssl/nginx_self_signed"
+base_ssl_cert: "{{ ssl_dir }}/cert.pem"
+base_ssl_key:  "{{ ssl_dir }}/private_key.pem"

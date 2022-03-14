@@ -1,0 +1,31 @@
+---
+
+- name: Installed MariaDB and dependencies
+  yum:
+    name:
+      - mariadb-server
+      - MySQL-python
+    update_cache: true
+  register: db_server_installed
+
+- name: MariaDB server restarted
+  service:
+    name:    mariadb
+    state:   restarted
+    enabled: true
+  when: db_server_installed.changed
+
+- name: DB created
+  mysql_db:
+    name:  "{{ db_name }}"
+    state: present
+
+- name: >
+    Create database user "{{ user_name }}" with "{{ user_pass | password_hash('md5') }}"
+    and "{{ db_name }}".*:ALL privelege
+  mysql_user:
+    name:     bob
+    password: "{{ user_pass }}"
+    priv:     "{{ db_name }}.*:ALL"
+    state:    present
+  no_log: true
