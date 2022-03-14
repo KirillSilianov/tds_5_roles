@@ -11,13 +11,13 @@
 ## Запуск ##
 ### Все роли ###
 ```console
-ansible-playbook ./deploy/deploy.yml -i ./deploy/inventory.yml
+ansible-playbook ./configuration/deploy.yml -i ./configuration/inventory.yml
 ```
 ### Только NGINX ###
 ```console
-ansible-playbook ./deploy/deploy.yml -i ./deploy/inventory.yml -e "only_nginx=true"
+ansible-playbook ./configuration/deploy.yml -i ./configuration/inventory.yml -e "only_nginx=true"
 ```
 ### Только MariaDB ###
 ```console
-ansible-playbook ./deploy/deploy.yml -i ./deploy/inventory.yml -e "only_maria=true"
+ansible-playbook ./configuration/deploy.yml -i ./configuration/inventory.yml -e "only_maria=true"
 ```
